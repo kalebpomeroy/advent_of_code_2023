@@ -11,14 +11,14 @@ fn read_file_to_list(file_path: &str) -> Result<Vec<String>, io::Error> {
 }
 
 const WORD_MAP: &[(&str, &str)] = &[
-    ("five", "5"),
-    ("four", "4"),
-    ("eight", "8"),
     ("one", "1"),
-    ("seven", "7"),
-    ("six", "6"),
-    ("three", "3"),
     ("two", "2"),
+    ("two", "2"),
+    ("four", "4"),
+    ("five", "5"),
+    ("six", "6"),
+    ("seven", "7"),
+    ("eight", "8"),
     ("nine", "9"),
 ];
 
