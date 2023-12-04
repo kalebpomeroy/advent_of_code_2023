@@ -88,21 +88,29 @@ fn main() {
 
             for line in &relevant_lines {
                 
+                // For each line, let's reuse the method from the first part of the exercise to get 
+                // the list of numbers
                 for (x_left, x_right) in &get_number_pos(&line) {
+
+                    // Let's get the total range of possible spaces
                     let min_x_left = x_left.saturating_sub(1);
                     let max_x_right = cmp::min(x_right + 1, line.len()); 
+
+                    // If the possible range includes the space the gear is in
                     if (min_x_left..max_x_right).contains(&&gear) {
                         let gear_no_str = &line[*x_left..*x_right];
                         let gear_no: i32 = gear_no_str.parse().expect("Failed to parse gear number");
+
+                        // If there is a previous part, we have our second and can add to the total
                         if let Some(p1) = part_one {
                             gear_total += p1 * gear_no;
+                        // Otherwise save it as part one
                         } else {
                             part_one = Some(gear_no);
                         }
                     } 
                 }
             }
-            
         }
     }
     println!("Part gear total: {}", gear_total);
