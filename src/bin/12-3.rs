@@ -1,5 +1,6 @@
 use advent::util::load_file;
 use std::cmp;
+use regex::Regex;
 
 fn get_number_pos(line: &str) -> Vec<(usize, usize)> {
     // This returns a list of tuples such that (starting_pos, ending_pos) for each number
@@ -70,6 +71,62 @@ fn main() {
                 total += part_number;
             } 
         }
+        
+        let gears: Vec<usize> = line.char_indices()
+                                    .filter(|&(_, ch)| ch == '*')
+                                    .map(|(index, _)| index)
+                                    .collect(); 
+
+        for gear in gears {
+            let mut top = String::new();
+            let mut bot = String::new();
+
+            let size = (gear-1)..(gear+2);
+            if y > 0 {
+                top = lines[y-1][size.clone()].to_string();
+            }
+            let mid = lines[y][size.clone()].to_string();
+            if y+1 < lines.len() {
+                bot = lines[y+1][size.clone()].to_string();
+            }
+            let area = [top, mid, bot];
+            let re = Regex::new(r"[0-9][\.\*][0-9]").unwrap();
+
+            // Filter the list to the lines that have numbers in them
+            let num_lines: Vec<&String> = area.iter().filter(|&s| contains_number(&s)).collect();
+
+            // Filter the list to the lines that have two separate numbers
+            let dual_num_lines: Vec<&String> = area.iter().filter(|&s| re.is_match(s)).collect();
+                        
+            // If there are two lines with numbers, that's a match
+            if num_lines.len() == 2 {
+                // println!("{:?}", num_lines);
+                continue;
+            // If there are any lines with two separate numbers, that's a match
+            } else if dual_num_lines.len() == 1 {
+
+                let line_offset = match area.iter().position(|s| &s == &dual_num_lines[0]) {
+                    Some(index) => index,
+                    None => 0,
+                };
+
+                
+                println!("{:?}", lines[y.saturating_sub(line_offset).saturating_sub(1)]);
+                println!("{:?}", lines[y.saturating_sub(line_offset)]);
+                println!("{:?}", dual_num_lines);
+                println!("{:?} {:?}", y, line_offset);
+
+            // If we have less than two lines and none of the above patterns
+            // we can safely continue
+            } else {
+                continue;
+            }
+
+        }
     }
-    println!("Part number total: {}", total)
+    println!("Part number total: {}", total);
+}
+
+fn contains_number(s: &str) -> bool {
+    s.chars().any(|ch| ch.is_numeric())
 }
