@@ -48,6 +48,7 @@ fn main() {
         };
         let hand_type: String = get_hand_type(&hand.value);  
         hands_by_type.get_mut(&hand_type[..]).expect("Bleh").push(hand);
+
     }
 
     // Create a hash map for quick lookups of character to rank
@@ -100,7 +101,7 @@ fn get_hand_type(hand: &str) -> String {
             else { FULL_HOUSE}
         },
         
-        // If there's only a single character
+        // If there's three different characters
         3 => {
             if numbers.values().any(|&val| val + jokers == 3){ THREE_OF_A_KIND }
             // Interesting observation: If you have a joker, you never have two pair
