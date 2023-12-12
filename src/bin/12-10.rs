@@ -1,35 +1,7 @@
 use advent::util::load_file;
 use advent::util::prepend_to_vector;
-use std::fmt;
 
-
-#[derive(Clone, Copy, Debug, PartialEq)]
-struct Coordinate {
-    x: i32, 
-    y: i32
-}
-
-impl Coordinate {
-    fn add(&self, c: Coordinate) -> Coordinate{
-        return Coordinate { 
-            x: c.x + self.x, 
-            y: c.y + self.y
-        };
-    }
-
-    fn get_space(&self, rows: &Vec<String>) -> Option<char>{
-        if self.y < 0 || self.y > rows.len() as i32{ return None }
-        else if self.x < 0 || self.x > rows.first().unwrap().len() as i32 { return None }
-    
-        return rows.get(self.y as usize).unwrap().chars().nth(self.x as usize);
-    }
-}
-
-impl fmt::Display for Coordinate {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "x: {}, y: {}", self.x, self.y)
-    }
-}
+use advent::util::Coordinate;
 
 const NORTH: (char, Coordinate) = ('^', Coordinate { x: 0, y: -1 });
 const SOUTH: (char, Coordinate) = ('v', Coordinate { x: 0, y: 1});
@@ -68,10 +40,12 @@ fn main() {
 
     for (y, line) in lines.clone().iter().enumerate() {
         let mut formatted_line = String::from("");
+        let mut total = 0;
         for (x, _) in line.char_indices() {
 
             if path.contains(&Coordinate {x: x as i32, y: y as i32 }){
                 formatted_line.push_str("-");
+                total += 1;
               } else {
 
                 let mut has_n_pipe = false;
@@ -94,6 +68,7 @@ fn main() {
 
             }
         }
+        formatted_line.push_str(&total.to_string());
         formatted_lines.push(formatted_line);
     }
 
