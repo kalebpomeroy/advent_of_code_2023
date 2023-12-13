@@ -1,35 +1,57 @@
 use advent::util::load_file;
-use std::collections::HashMap;
+use std::ops::Range;
 
+#[derive(Debug)]
 struct Converter {
-    source: i64,
     destination: i64,
-    range: i64,
+    range: Range<i64>,
 }
 
-const MAP_ORDER: [&str; 8] = [
-    "seed", "soil", "fertilizer", "water", "light", "temperature", "humidity", "location"
-];
 
-fn convert(order: usize, value: i64, sources: &HashMap<String, Vec<Converter>>) -> i64{
-    
-    if order == 7 { return value }
+fn calculate_overlap(a: &Range<i64>, b: &Range<i64>) -> Option<Range<i64>> {
+    return if a.end <= b.start || a.start >= b.end {
+        // No overlap
+        None
+    } else {
+        // Overlap exists
+        Some(a.start.max(b.start)..a.end.min(b.end))
+    };
+}
 
-    let thing = MAP_ORDER[order];
+fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Converter>>) -> i64{
     
-    for con in &sources[thing] {
-        if value < con.source || value >= con.source + con.range { continue }
-        let new_value = con.destination + (value - con.source);
-        return convert(order +1, new_value, sources);
+    // If it's the last conversion level, just return the range
+    if conversion_level >= sources.len() { 
+        return seed_range.start;
     }
 
-    return convert(order+1, value, sources);
+    for _ in (0..conversion_level) { print!("\t" )}
+    println!("Converting {:?}", seed_range);
+
+    let converters = sources.get(conversion_level).unwrap();
+    
+    let mut locations: Vec<i64> = Vec::new();
+    for con in converters {
+        let split_range = calculate_overlap(&con.range, &seed_range);
+        if split_range.is_some() {
+            let overlap_range = split_range.unwrap();
+            let length = overlap_range.end - overlap_range.start + 1;
+            let new_range = con.destination..(con.destination + length);
+
+            
+            for _ in (0..conversion_level) { print!("\t" )}
+            println!("Found a convertor for {:?} (starting with {:?})", overlap_range, new_range);
+
+            locations.push(convert(conversion_level + 1, new_range, &sources));
+        }
+    }
+    let lowest_value = locations.iter().min().unwrap_or(&10000000000);
+    return *lowest_value;
 }
 
 fn main() {
     let mut seeds: Vec<i64> = Vec::new();
-    let mut sources: HashMap<String, Vec<Converter>> = HashMap::new();
-    let mut current_name: String = String::new();
+    let mut sources: Vec<Vec<Converter>> = Vec::new();
 
     for line in load_file() {
         if line.len() == 0 { continue }
@@ -40,18 +62,15 @@ fn main() {
                 Ok(s) => { seeds = s; }
                 Err(e) => { eprintln!("Failed to parse seeds: {:?}", e) }
             }
-        } else if let Some(index) = line.find('-') {
-            current_name = String::from(line[..index].to_string());
-            sources.insert(current_name.clone(), Vec::new());
+        } else if let Some(_) = line.find('-') {
+            sources.push(Vec::new());
         } else {
             let conversions: Result<Vec<i64>, _> = line.split(" ").map(|s| s.parse()).collect();
             match conversions {
                 Ok(conversions) => { 
-                
-                    sources.get_mut(&current_name.clone()).unwrap().push(Converter {
+                    sources.last_mut().unwrap().push(Converter {
                         destination: conversions[0],
-                        source: conversions[1],
-                        range: conversions[2]
+                        range: conversions[1]..(conversions[1] + conversions[2])
                     })
                 }
                 Err(e) => { eprintln!("Failed to parse seeds: {:?}", e) }
@@ -59,13 +78,15 @@ fn main() {
         }         
     }
 
-    let mut lowest_loc: i64 = 1000000000000;
+    let mut locations: Vec<i64> = Vec::new();
+    for i in (0..seeds.len()).step_by(2) {
+        let seed_start = seeds[i];
+        let seed_range = seed_start..(seed_start + seeds[i+1]);
 
-    for seed in &seeds {
-        let loc = convert(0, *seed, &sources); 
-        if loc < lowest_loc { lowest_loc = loc.clone()}
+        locations.push(convert(0, seed_range, &mut sources));
+        // if loc < lowest_loc { lowest_loc = loc.clone()}
     }
+    println!("{:?}", locations.iter().min());
 
-    println!("Lowest: {}", lowest_loc);
 }
   
