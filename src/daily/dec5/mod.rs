@@ -49,7 +49,7 @@ fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Co
     return *lowest_value;
 }
 
-fn main() {
+pub fn run(part_one: bool) -> i64 {
     let mut seeds: Vec<i64> = Vec::new();
     let mut sources: Vec<Vec<Converter>> = Vec::new();
 
@@ -86,7 +86,6 @@ fn main() {
         locations.push(convert(0, seed_range, &mut sources));
         // if loc < lowest_loc { lowest_loc = loc.clone()}
     }
-    println!("{:?}", locations.iter().min());
-
+    *locations.iter().min().unwrap()
 }
   
