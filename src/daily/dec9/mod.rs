@@ -1,11 +1,9 @@
-use advent::util::load_file;
-
 use std::collections::HashSet;
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
 
     let mut total = 0;
-    for line in load_file() {
+    for line in lines {
 
         let numbers: Vec<i64> = line.split_whitespace()
                                     .filter_map(|s| s.parse().ok())

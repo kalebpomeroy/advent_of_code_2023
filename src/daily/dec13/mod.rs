@@ -1,5 +1,3 @@
-use advent::util::load_file;
-
 fn find_reflection(pattern: &Vec<String>, clean_smudges: bool) -> Option<usize> {
     for (index, _) in pattern.iter().enumerate() {
         
@@ -66,12 +64,12 @@ fn rotate_pattern(pattern: &Vec<String>) -> Vec<String>{
     return new_pattern
 }
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
 
     let mut total = 0;
     let mut patterns: Vec<Vec<String>> = Vec::new();
 
-    for line in load_file() {
+    for line in lines {
         if ! line.contains('.') {
             patterns.push(Vec::new());
             continue;

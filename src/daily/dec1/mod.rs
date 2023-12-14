@@ -1,5 +1,3 @@
-use advent::util::load_file;
-
 const WORD_MAP: &[(&str, &str)] = &[
     ("one", "1"),
     ("two", "2"),
@@ -12,9 +10,9 @@ const WORD_MAP: &[(&str, &str)] = &[
     ("nine", "9"),
 ];
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
     let mut total: i64 = 0;
-    for line in load_file() {
+    for line in lines {
         let mut working_line = line.to_string();
 
         

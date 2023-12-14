@@ -1,4 +1,3 @@
-use advent::util::load_file;
 use std::collections::HashSet;
 use std::collections::HashMap;
 
@@ -7,10 +6,10 @@ fn get_numbers(ln: &str) -> HashSet<i64> {
     ln.split(" ").filter_map(|s| s.parse().ok()).collect()
 }
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
     let mut total = 0;
     let mut cards: HashMap<usize, i64> = HashMap::new();
-    for (index, line) in load_file().iter().enumerate() {
+    for (index, line) in lines.iter().enumerate() {
         
         let l: Vec<&str> = line[10..line.len()].split("|").collect();
         *cards.entry(index).or_insert(0) += 1;

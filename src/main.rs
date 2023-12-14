@@ -1,7 +1,7 @@
-// src/main.rs
+use advent::util::load_file;
 
 mod daily;
-type ScriptRunner = fn(bool) -> i64;
+type ScriptRunner = fn(Vec<String>, bool) -> i64;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -25,14 +25,15 @@ fn main() {
         "dec11" => Some(daily::dec11::run),
         // "dec12" => Some(daily::dec12::run),
         "dec13" => Some(daily::dec13::run),
-        // "dec14" => Some(daily::dec14::run),
+        "dec14" => Some(daily::dec14::run),
         _ => None,
     };
 
+    let lines = load_file();
     match runner {
         Some(r) => {
-            println!("Part One: {}", r(true));
-            println!("Part Two: {}", r(false));
+            println!("Part One: {}", r(lines.clone(), true));
+            println!("Part Two: {}", r(lines.clone(), false));
         },
         _ => {
             println!("Couldn't find the runner (check main.rs)");

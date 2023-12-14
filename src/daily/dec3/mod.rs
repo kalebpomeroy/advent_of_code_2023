@@ -1,4 +1,3 @@
-use advent::util::load_file;
 use std::cmp;
 
 fn get_number_pos(line: &str) -> Vec<(usize, usize)> {
@@ -33,10 +32,10 @@ fn get_number_pos(line: &str) -> Vec<(usize, usize)> {
 }
 
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
     let mut total = 0;
     let mut gear_total = 0;
-    let lines = load_file();
+    let lines = lines;
     for (y, line) in lines.iter().enumerate() {
         for (x_left, x_right) in &get_number_pos(&line) {
 

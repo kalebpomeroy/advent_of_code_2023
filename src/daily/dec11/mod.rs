@@ -1,11 +1,9 @@
 use std::collections::HashSet;
 
 use advent::util::Coordinate;
-use advent::util::load_file;
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
 
-    let lines = load_file();
     let mut cols: Vec<usize> = Vec::new();
     let mut rows: Vec<usize> = Vec::new();
 

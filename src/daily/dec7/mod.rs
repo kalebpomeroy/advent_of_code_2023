@@ -1,4 +1,3 @@
-use advent::util::load_file;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
@@ -20,7 +19,7 @@ const TWO_PAIR: &str = "two_pair";
 const FULL_HOUSE: &str = "full";
 
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, part_one: bool) -> i64 {
 
     // The order in which hands should be sorted
     let rankings: Vec<&str> = Vec::from([
@@ -41,7 +40,7 @@ pub fn run(part_one: bool) -> i64 {
     }
 
     // Store each line in the appropriate vector for type of hand it is
-    for line in load_file() {
+    for line in lines {
         let mut parts = line.split_whitespace();
         let hand = Hand {
             value: parts.next().unwrap_or_default().to_string(),

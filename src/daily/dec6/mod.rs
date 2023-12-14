@@ -8,7 +8,7 @@ fn calculate_time(ms: i64, mm: i64) -> i64 {
     return ways_to_win
 }
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(_: Vec<String>, part_one: bool) -> i64 {
     // My data set (This was easier than parsing the file. Cheating? Maybe.)
     let records = [(38, 234), (67, 1027), (76, 1156), (73, 1236)];
     

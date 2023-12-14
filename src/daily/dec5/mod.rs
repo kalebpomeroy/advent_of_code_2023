@@ -1,4 +1,3 @@
-use advent::util::load_file;
 use std::ops::Range;
 
 #[derive(Debug)]
@@ -49,11 +48,11 @@ fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Co
     return *lowest_value;
 }
 
-pub fn run(_part_one: bool) -> i64 {
+pub fn run(lines: Vec<String>, _part_one: bool) -> i64 {
     let mut seeds: Vec<i64> = Vec::new();
     let mut sources: Vec<Vec<Converter>> = Vec::new();
 
-    for line in load_file() {
+    for line in lines {
         if line.len() == 0 { continue }
 
         if seeds.len() == 0 {
