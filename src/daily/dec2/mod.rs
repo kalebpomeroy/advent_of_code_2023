@@ -1,8 +1,5 @@
 use std::cmp;
-use std::collections::HashSet;
-use std::fmt;
 use advent::util::load_file;
-use advent::util::Part;
 
 struct Round {
     red: i32,
@@ -55,7 +52,7 @@ fn parse_game_data(line: &str) -> (i32, Vec<Round>) {
     (game_number, rounds)
 }
 
-pub fn run(part: Part) -> i64 {
+pub fn run(part_one: bool) -> i64 {
    
     // For part one, this is the "correct" limits
     let baseline = Round {
@@ -81,17 +78,17 @@ pub fn run(part: Part) -> i64 {
             max_round.green = cmp::max(round.green, max_round.green);
         }
 
-        match part {
+        match part_one {
             // For part one, we want to count the valid games. A valid game is any where the max round 
             // is less than or equal to the 
-            Part::One => {
+            true => {
                 if max_round.blue <= baseline.blue && max_round.red <= baseline.red && max_round.green <= baseline.green { 
                     total += game_id;
                 }
             }, 
 
             // For part two, we want to multiply the highest totals from each game
-            Part::Two => {
+            false => {
                 total += max_round.blue * max_round.red * max_round.green;
             }
         }

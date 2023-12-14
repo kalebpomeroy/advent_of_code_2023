@@ -1,8 +1,7 @@
 // src/main.rs
 
 mod daily;
-use advent::util::Part;
-type ScriptRunner = fn(Part) -> i64;
+type ScriptRunner = fn(bool) -> i64;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -15,7 +14,7 @@ fn main() {
     let runner: Option<ScriptRunner> = match args[1].as_str() {
         "dec1" => Some(daily::dec1::run),
         "dec2" => Some(daily::dec2::run),
-        // "dec3" => Some(daily::dec3::run),
+        "dec3" => Some(daily::dec3::run),
         // "dec4" => Some(daily::dec4::run),
         // "dec5" => Some(daily::dec5::run),
         // "dec6" => Some(daily::dec6::run),
@@ -32,8 +31,8 @@ fn main() {
 
     match runner {
         Some(r) => {
-            println!("Part One: {}", r(Part::One));
-            println!("Part Two: {}", r(Part::Two));
+            println!("Part One: {}", r(true));
+            println!("Part Two: {}", r(false));
         },
         _ => {
             println!("Couldn't find the runner (check main.rs)");

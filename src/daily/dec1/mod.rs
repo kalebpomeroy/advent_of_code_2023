@@ -1,5 +1,4 @@
 use advent::util::load_file;
-use advent::util::Part;
 
 const WORD_MAP: &[(&str, &str)] = &[
     ("one", "1"),
@@ -13,13 +12,13 @@ const WORD_MAP: &[(&str, &str)] = &[
     ("nine", "9"),
 ];
 
-pub fn run(part: Part) -> i64 {
+pub fn run(part_one: bool) -> i64 {
     let mut total: i64 = 0;
     for line in load_file() {
         let mut working_line = line.to_string();
 
         
-        if part == Part::Two {
+        if !part_one {
             for (w, n) in WORD_MAP.iter() {
                 // In the case of the string "oneight" we can't just replace
                 // the word with the number. Instead, this turns into one1oneight8eight and

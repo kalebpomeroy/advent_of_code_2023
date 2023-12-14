@@ -33,7 +33,7 @@ fn get_number_pos(line: &str) -> Vec<(usize, usize)> {
 }
 
 
-fn main() { 
+pub fn run(part_one: bool) -> i64 {
     let mut total = 0;
     let mut gear_total = 0;
     let lines = load_file();
@@ -113,6 +113,8 @@ fn main() {
             }
         }
     }
-    println!("Part gear total: {}", gear_total);
-    println!("Part number total: {}", total);
+    return match part_one {
+        true => { total }
+        false => { gear_total }
+    } as i64
 }
