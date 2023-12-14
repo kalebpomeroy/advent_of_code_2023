@@ -22,9 +22,9 @@ fn main() {
         // "dec8" => Some(daily::dec8::run),
         "dec9" => Some(daily::dec9::run),
         // "dec10" => Some(daily::dec10::run),
-        // "dec11" => Some(daily::dec11::run),
+        "dec11" => Some(daily::dec11::run),
         // "dec12" => Some(daily::dec12::run),
-        // "dec13" => Some(daily::dec13::run),
+        "dec13" => Some(daily::dec13::run),
         // "dec14" => Some(daily::dec14::run),
         _ => None,
     };

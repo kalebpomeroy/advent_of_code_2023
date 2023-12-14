@@ -1,12 +1,12 @@
 use advent::util::load_file;
 
-fn find_reflection(pattern: &Vec<String>) -> Option<usize> {
+fn find_reflection(pattern: &Vec<String>, clean_smudges: bool) -> Option<usize> {
     for (index, _) in pattern.iter().enumerate() {
         
         // If this is the first or last line, we don't need to check 
         if index >= pattern.len() || index == 0 { continue }
 
-        let mut smudge_cleaned = false;
+        let mut smudge_cleaned = !clean_smudges;
         // Starting from index, loop over every line in the pattern
         for (offset, i) in (index..pattern.len()).enumerate() {
 
@@ -32,9 +32,6 @@ fn find_reflection(pattern: &Vec<String>) -> Option<usize> {
                                             .filter(|(a, b)| a != b)
                                             .count() == 1 {
                             smudge_cleaned = true;
-                            println!("Cleaned smudge");
-                            println!("{a}");
-                            println!("{b}");
                         } else {
                             break 
                         }
@@ -69,11 +66,10 @@ fn rotate_pattern(pattern: &Vec<String>) -> Vec<String>{
     return new_pattern
 }
 
-fn main() {
+pub fn run(part_one: bool) -> i64 {
 
     let mut total = 0;
     let mut patterns: Vec<Vec<String>> = Vec::new();
-    // let mut patterns_rotated: Vec<Vec<String>> = Vec::new();
 
     for line in load_file() {
         if ! line.contains('.') {
@@ -91,14 +87,14 @@ fn main() {
 
         let mut working_pattern = pattern.clone();
         
-        total += match find_reflection(&working_pattern) {
+        total += match find_reflection(&working_pattern, !part_one) {
             Some(r) => r * 100,
             _ => {
                 working_pattern = rotate_pattern(&working_pattern);
-                find_reflection(&working_pattern).unwrap()
+                find_reflection(&working_pattern, !part_one).unwrap()
             }
         };        
     }
-    // 36809 too high
-    println!("{total}")
+
+    return total as i64
 }
