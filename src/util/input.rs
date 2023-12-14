@@ -19,10 +19,11 @@ fn read_file_to_list(file_path: &str) -> Result<Vec<String>, io::Error> {
 }
 
 pub fn load_file() -> Vec<String> {
-    match read_file_to_list(&get_file_path()) {
+    let file_path = get_file_path();
+    match read_file_to_list(&file_path) {
         Ok(lines) => lines, 
         Err(e) => {
-            println!("Error reading file: {}", e);
+            println!("Error reading file ({}): {}", file_path, e);
             process::exit(1);
         }
     }

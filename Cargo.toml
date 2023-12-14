@@ -8,3 +8,5 @@ default-run = "advent"
 
 [dependencies]
 regex = "1"
+anyhow = "1.0"
+reflect = "0.0.13"
