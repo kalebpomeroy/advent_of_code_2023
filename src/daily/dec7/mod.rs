@@ -8,7 +8,8 @@ struct Hand {
 }
 
 // The order of card ranking for stacking hands of similar size
-const CARD_RANK: [char; 13] = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'];
+const CARD_RANK: [char; 13] = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'];
+const CARD_RANK_WITH_JOKERS: [char; 13] = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'];
 
 const FIVE_OF_A_KIND: &str = "five";
 const FOUR_OF_A_KIND: &str = "four";
@@ -19,7 +20,7 @@ const TWO_PAIR: &str = "two_pair";
 const FULL_HOUSE: &str = "full";
 
 
-fn main() {
+pub fn run(part_one: bool) -> i64 {
 
     // The order in which hands should be sorted
     let rankings: Vec<&str> = Vec::from([
@@ -46,13 +47,14 @@ fn main() {
             value: parts.next().unwrap_or_default().to_string(),
             bet: parts.next().unwrap_or_default().parse::<i32>().unwrap()
         };
-        let hand_type: String = get_hand_type(&hand.value);  
+        let hand_type: String = get_hand_type(&hand.value, !part_one);  
         hands_by_type.get_mut(&hand_type[..]).expect("Bleh").push(hand);
 
     }
 
     // Create a hash map for quick lookups of character to rank
-    let rank_map: HashMap<char, usize> = CARD_RANK.iter().enumerate().map(|(i, &c)| (c, i)).collect();
+    let ranks = if part_one { CARD_RANK } else { CARD_RANK_WITH_JOKERS };
+    let rank_map: HashMap<char, usize> = ranks.iter().enumerate().map(|(i, &c)| (c, i)).collect();
 
     let mut total: i32 = 0;
     let mut bet_rank: i32 = 0;
@@ -82,14 +84,17 @@ fn main() {
         }
     }
 
-    println!("Total {}", total);
+    return total as i64;
 }
 
-fn get_hand_type(hand: &str) -> String {
+fn get_hand_type(hand: &str, use_jokers: bool) -> String {
 
     let mut numbers = count_characters(hand);
 
-    let jokers = numbers.remove(&'J').unwrap_or_default();
+    let jokers = match use_jokers {
+        true => { numbers.remove(&'J').unwrap_or_default() }
+        false => { 0 }
+    };
 
     let val: &str = match numbers.values().len() {
         // If there's only a single character (or only jokers)

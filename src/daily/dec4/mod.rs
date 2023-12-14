@@ -3,13 +3,13 @@ use std::collections::HashSet;
 use std::collections::HashMap;
 
 
-fn get_numbers(ln: &str) -> HashSet<i32> {
+fn get_numbers(ln: &str) -> HashSet<i64> {
     ln.split(" ").filter_map(|s| s.parse().ok()).collect()
 }
 
-fn main() {
+pub fn run(part_one: bool) -> i64 {
     let mut total = 0;
-    let mut cards: HashMap<usize, i32> = HashMap::new();
+    let mut cards: HashMap<usize, i64> = HashMap::new();
     for (index, line) in load_file().iter().enumerate() {
         
         let l: Vec<&str> = line[10..line.len()].split("|").collect();
@@ -26,7 +26,9 @@ fn main() {
             *cards.entry(prize_card).or_insert(0) += *cards.entry(index).or_default();
         }
     }
-    let total_sum: i32 = cards.values().cloned().sum();
-    println!("The big number is {:?}", total_sum);
-    println!("{}", total);
+
+    return match part_one { 
+        true => total, 
+        false => { cards.values().cloned().sum() }
+    }
 }
