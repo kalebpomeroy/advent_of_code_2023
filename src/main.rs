@@ -18,7 +18,7 @@ fn main() {
         "dec4" => Some(daily::dec4::run),
         "dec5" => Some(daily::dec5::run),
         "dec6" => Some(daily::dec6::run),
-        // "dec7" => Some(daily::dec7::run),
+        "dec7" => Some(daily::dec7::run),
         // "dec8" => Some(daily::dec8::run),
         // "dec9" => Some(daily::dec9::run),
         // "dec10" => Some(daily::dec10::run),

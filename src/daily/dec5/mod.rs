@@ -25,7 +25,7 @@ fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Co
         return seed_range.start;
     }
 
-    for _ in (0..conversion_level) { print!("\t" )}
+    for _ in 0..conversion_level { print!("\t" )}
     println!("Converting {:?}", seed_range);
 
     let converters = sources.get(conversion_level).unwrap();
@@ -39,7 +39,7 @@ fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Co
             let new_range = con.destination..(con.destination + length);
 
             
-            for _ in (0..conversion_level) { print!("\t" )}
+            for _ in 0..conversion_level { print!("\t" )}
             println!("Found a convertor for {:?} (starting with {:?})", overlap_range, new_range);
 
             locations.push(convert(conversion_level + 1, new_range, &sources));
@@ -49,7 +49,7 @@ fn convert(conversion_level: usize, seed_range: Range<i64>, sources: &Vec<Vec<Co
     return *lowest_value;
 }
 
-pub fn run(part_one: bool) -> i64 {
+pub fn run(_part_one: bool) -> i64 {
     let mut seeds: Vec<i64> = Vec::new();
     let mut sources: Vec<Vec<Converter>> = Vec::new();
 
