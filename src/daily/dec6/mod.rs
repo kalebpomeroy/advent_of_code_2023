@@ -8,7 +8,7 @@ fn calculate_time(ms: i64, mm: i64) -> i64 {
     return ways_to_win
 }
 
-fn main() {
+pub fn run(part_one: bool) -> i64 {
     // My data set (This was easier than parsing the file. Cheating? Maybe.)
     let records = [(38, 234), (67, 1027), (76, 1156), (73, 1236)];
     
@@ -17,6 +17,8 @@ fn main() {
     for (ms, mm) in records {
         result *= calculate_time(ms, mm);
     }
-    println!("{}", result);
-    println!("{}", calculate_time(38677673, 234102711561236));
+    return match part_one { 
+        true => result, 
+        false => { calculate_time(38677673, 234102711561236) }
+    }
 }
