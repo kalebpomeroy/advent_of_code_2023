@@ -15,6 +15,14 @@ impl Coordinate {
         };
     }
 
+    pub fn new(x: usize, y: usize) -> Coordinate {
+        return Coordinate {
+            x: x as i32,
+            y: y as i32
+        }
+
+    }
+
     pub fn get_distance(&self, c: Coordinate) -> i32 {
         return (c.x - self.x).abs() + (c.y - self.y).abs();
     }
