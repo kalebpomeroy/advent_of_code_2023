@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+// use std::collections::HashMap;
 
 
 fn hash(c: char, current_value: i32) -> i32 {

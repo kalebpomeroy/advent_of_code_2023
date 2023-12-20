@@ -28,6 +28,7 @@ fn main() {
         "dec14" => Some(daily::dec14::run),
         "dec15" => Some(daily::dec15::run),
         "dec16" => Some(daily::dec16::run),
+        "dec17" => Some(daily::dec17::run),
         _ => None,
     };
 
